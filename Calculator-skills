@@ -1,0 +1,69 @@
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+console.log('Simple Calculator');
+console.log("Enter 'q' to quit");
+
+function calculator() {
+  rl.question('Enter the first number: ', (num1) => {
+    if (num1.toLowerCase() === 'q') {
+      rl.close();
+      return;
+    }
+
+    rl.question('Enter an operator (+, -, *, /): ', (operator) => {
+      if (operator.toLowerCase() === 'q') {
+        rl.close();
+        return;
+      }
+
+      rl.question('Enter the second number: ', (num2) => {
+        if (num2.toLowerCase() === 'q') {
+          rl.close();
+          return;
+        }
+
+        num1 = parseFloat(num1);
+        num2 = parseFloat(num2);
+
+        if (isNaN(num1) || isNaN(num2)) {
+          console.log('Error: Invalid input');
+        } else {
+          let result;
+          switch (operator) {
+            case '+':
+              result = num1 + num2;
+              break;
+            case '-':
+              result = num1 - num2;
+              break;
+            case '*':
+              result = num1 * num2;
+              break;
+            case '/':
+              if (num2 === 0) {
+                console.log('Error: Division by zero is not allowed');
+              } else {
+                result = num1 / num2;
+              }
+              break;
+            default:
+              console.log('Error: Invalid operator');
+              break;
+          }
+          if (result !== undefined) {
+            console.log('Result:', result);
+          }
+        }
+
+        calculator(); // Recursive call to continue calculating
+      });
+    });
+  });
+}
+
+calculator();
